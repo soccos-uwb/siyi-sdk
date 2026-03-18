@@ -382,17 +382,20 @@ void SiyiClient::Impl::handleFirmwareVersionResponse(const protocol::SiyiFrame& 
 
 void SiyiClient::Impl::handleHardwareIDResponse(const protocol::SiyiFrame& frame) {
   constexpr const size_t kHardwareIdPayloadSize = 12;
-  constexpr const size_t kModelIdSize = 2;
-  
+  constexpr const size_t kModelNumberLength = 2;
+
   if (frame.data.size() != kHardwareIdPayloadSize) {
     dbgs << "Invalid hardware ID response size: " << frame.data.size() << "\n";
     return;
   }
 
-  // TODO(shlyapin): id тоже приходит в ascii
+  // Первые 2 символа - номер модели, все 12 символов - полный ID
+  std::string modelNumber(frame.data.begin(), frame.data.begin() + kModelNumberLength);
+  std::string fullId(frame.data.begin(), frame.data.end());
+
   HardwareID hardware{
-    .id = utility::read_u16(frame.data, 0),
-    .name = std::string(frame.data.begin() + kModelIdSize, frame.data.end())
+    .model_number = std::move(modelNumber),
+    .id = std::move(fullId)
   };
   stateStore_.updateHardwareID(std::move(hardware));
 }

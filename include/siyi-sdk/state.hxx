@@ -132,8 +132,8 @@ struct FirmwareVersionState {
  * @brief Аппаратный ID
  */
 struct HardwareID {
-  uint16_t id;   ///< ID
-  std::string name; ///< Имя
+  std::string model_number; ///< Номер модели (первые 2 символа)
+  std::string id;           ///< Полный ID (все 12 символов в ASCII)
 };
 
 /**

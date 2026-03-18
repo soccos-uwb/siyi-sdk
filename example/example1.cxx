@@ -25,7 +25,7 @@ auto print_firmware_version_state = [](const siyi::FirmwareVersionState& state) 
 
 auto print_hardware_id_state = [](const siyi::HardwareIDState& state) {
   if (state.value) {
-    std::cout << "Hardware ID: " << std::setw(2) << std::hex << state.value->id << " (" << state.value->name << ")\n\n";
+    std::cout << "Hardware ID: " << state.value->id << " (Model: " << state.value->model_number << ")\n\n";
   } else {
     std::cout << "Hardware ID not available\n\n";
   }
