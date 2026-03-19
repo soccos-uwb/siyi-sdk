@@ -82,7 +82,7 @@ SiyiReceiver::decodeDatagramFrames(std::unique_ptr<DataGram> datagram) {
     }
 
     const uint16_t dataLen = utility::read_u16_le(buffer, offset + 3);
-    const size_t frameSize = 8 + static_cast<size_t>(dataLen) + 2;
+    const size_t frameSize = protocol::MIN_FRAME_SIZE + static_cast<size_t>(dataLen);
     if (remaining < frameSize) {
       return std::unexpected(protocol::DecodeFrameError::LengthMismatch);
     }
